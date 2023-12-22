@@ -64,7 +64,7 @@ end
 -- This function lets the user enter a string. This string is stored at the
 -- address to which STR_BASE and STR_BASE +1 point. Upon entry the x register
 -- specifies the maximum number of bytes the buffer can hold. Upon return the
--- x register is set to length of the entered string.
+-- x register is set to the length of the entered string.
 -- *********************************
 function read_string()
     local buffer_len = get_xreg()
