@@ -1,0 +1,5 @@
+{
+    "Name": "Count correct guesses 2",
+    "TestDriverSource": "guess1.asm",
+    "TestScript": "guess2.lua"
+}

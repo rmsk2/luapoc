@@ -1,0 +1,5 @@
+{
+    "Name": "Is game won 1",
+    "TestDriverSource": "won1.asm",
+    "TestScript": "won1.lua"
+}

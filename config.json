@@ -1,0 +1,13 @@
+{
+    "Model": "65C02",
+    "MemSpec": "Linear16K",
+    "IoMask": 45,
+    "IoAddrConfig": {
+    },
+    "PreLoad": {
+    },
+    "AcmeBinary": "acme",
+    "AcmeSrcDir": "./",
+    "AcmeBinDir": "./tests/bin",
+    "AcmeTestDir": "./tests"
+}
