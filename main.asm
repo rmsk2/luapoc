@@ -35,60 +35,43 @@ main
     ; initialize state
     stz NUMBER_OF_WRONG_GUESSES
     stz WORD_LEN
-    ; Ask for word to guess
     jsr printCrLf
     +printString PROMPT, 21
-    +getString WORD_TO_GUESS, MAX_WORD_LEN
-    stx WORD_LEN
-    ; initialize state of guessed word
-    jsr initGuessedWord
+    +getString WORD_TO_GUESS, MAX_WORD_LEN                      ; Ask for word to guess
+    stx WORD_LEN    
+    jsr initGuessedWord                                         ; initialize state of guessed word
     jsr clearScreen    
 mainLoop
-    ; draw hangman
     jsr printCrLf
-    jsr drawHangman
-    jsr printCrLf
-    ; show the current state of the guessed word
+    jsr drawHangman                                             ; draw hangman
+    jsr printCrLf    
     +printString CURRENT_RESULT, 14
-    +printStringAddr GUESSED_WORD, WORD_LEN
-    +printString CRLF, 2
-    ; get the next guess
+    +printStringAddr GUESSED_WORD, WORD_LEN                     ; show the current state of the guessed word
+    +printString CRLF, 2    
     +printString PROMPT_GUESS, 17
-    +getString GUESSED_CHAR, 1
-    ; mark correct positions
-    jsr evalGuess
-    ; store how often the guessed char appears in the
-    ; word to guess
-    stx NUM_CHARS_CORRECT
-    ; check whether all chars have been guessed correctly 
+    +getString GUESSED_CHAR, 1                                  ; get the next guess    
+    jsr evalGuess                                               ; mark correct positions    
+    stx NUM_CHARS_CORRECT                                       ; store how often the guessed char appears in the word to guess
     jsr isGameWon
-    cpy WORD_LEN
-    ; no difference found => game was won by player
-    beq .gameWon
-    ; We are not done yet
-    ; load number of correct guesses
-    ldx NUM_CHARS_CORRECT
-    ; if nonzero, the user guessed correctly => let user guess again
-    bne mainLoop
-    ; guess was incorrect    
-    inc NUMBER_OF_WRONG_GUESSES
-    ; check number of guesses
+    cpy WORD_LEN                                                ; check whether all chars have been guessed correctly     
+    beq .gameWon                                                ; no difference found => game was won by player
+    ; We are not done yet    
+    ldx NUM_CHARS_CORRECT                                       ; load number of correct guesses    
+    bne mainLoop                                                ; if nonzero, the user guessed correctly => let user guess again    
+    inc NUMBER_OF_WRONG_GUESSES                                 ; guess was incorrect        
     lda NUMBER_OF_WRONG_GUESSES
-    cmp #MAX_WRONG_GUESSES
-    ; too many wrong guesses?
-    bcs .gameLost
-    ; no => next guess
-    bra mainLoop
+    cmp #MAX_WRONG_GUESSES                                      ; check number of guesses    
+    bcs .gameLost                                               ; too many wrong guesses?    
+    bra mainLoop                                                ; no => next guess
 .gameLost
     ; maximum number of wrong guesses was reached => user has lost
     jsr printCrLf
     jsr drawHangman
     jsr printCrLf
     +printString YOU_LOOSE, 11
-    jsr printCrLf
-    ; tell user the correct word
+    jsr printCrLf    
     +printString CORRECT_WORD_TXT, 14
-    +printStringAddr WORD_TO_GUESS, WORD_LEN
+    +printStringAddr WORD_TO_GUESS, WORD_LEN                    ; tell user the correct word
     jsr printCrLf
     bra .gameEnd
 .gameWon
@@ -136,14 +119,11 @@ drawHangman
     lda NUMBER_OF_WRONG_GUESSES
     cmp #0
     beq .nothingToDraw
-    ; calculate index in jump table
-    ; make index start at 0
-    dec
-    ; multiply index by two
-    asl
-    tax
-    ; draw the stick figure
-    jmp (DRAW_TABLE,x)
+    ; calculate index in jump table    
+    dec                                                         ; make index start at 0    
+    asl                                                         ; multiply index by two
+    tax                                                         ; transfer index to x register
+    jmp (DRAW_TABLE,x)                                          ; draw the stick figure
 .nothingToDraw
     rts
 

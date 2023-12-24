@@ -64,22 +64,18 @@ STR_BASE = $90
 ; the x register. Upon return the x register is seet to the number if bytes used
 ; in the input buffer.
 ; --------------------------------
-callGetString
-    ; load trap code
-    lda #TRAP_INPUT
-    ; cause trap
-    sta TRAP_ADDRESS
+callGetString    
+    lda #TRAP_INPUT                                             ; load trap code    
+    sta TRAP_ADDRESS                                            ; cause trap
     rts
 
 ; --------------------------------
 ; This subroutine causes a Trap and thereby calls into Lua code. The function
 ; executed is clear_screen().
 ; --------------------------------
-clearScreen
-    ; load trap code
-    lda #TRAP_CLEAR
-    ; cause trap
-    sta TRAP_ADDRESS
+clearScreen    
+    lda #TRAP_CLEAR                                             ; load trap code    
+    sta TRAP_ADDRESS                                            ; cause trap
     rts
 
 ; --------------------------------
@@ -88,9 +84,7 @@ clearScreen
 ; the string to print is given in STR_BASE/STR_BASE+1. The string size is expected
 ; in the x register.
 ; --------------------------------
-callPrintString
-    ; load trap code
-    lda #TRAP_OUTPUT
-    ; cause trap
-    sta TRAP_ADDRESS
+callPrintString    
+    lda #TRAP_OUTPUT                                            ; load trap code    
+    sta TRAP_ADDRESS                                            ; cause trap
     rts
