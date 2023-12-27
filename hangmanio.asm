@@ -3,6 +3,7 @@ TRAP_ADDRESS = $FF00
 TRAP_INPUT = 0
 TRAP_OUTPUT = 1
 TRAP_CLEAR = 2
+TRAP_LOG = 3
 
 STR_BASE = $90
 
@@ -46,6 +47,19 @@ STR_BASE = $90
 }
 
 ; --------------------------------
+; This macro sets up STR_BASE and STR_BASE+1 with the buffer address given in .addr
+; and sets the x register to the value stored at .addrLen before calling callPrintString.
+; -------------------------------- 
+!macro logStringAddr .addr, .addrLen {
+    lda #<.addr
+    sta STR_BASE
+    lda #>.addr
+    sta STR_BASE+1
+    ldx .addrLen
+    jsr callLogString
+}
+
+; --------------------------------
 ; This macro sets up STR_BASE and STR_BASE+1 with the buffer address given in .addr.
 ; The x register is not changed. It therefore has to be set by the caller.
 ; -------------------------------- 
@@ -86,5 +100,16 @@ clearScreen
 ; --------------------------------
 callPrintString    
     lda #TRAP_OUTPUT                                            ; load trap code    
+    sta TRAP_ADDRESS                                            ; cause trap
+    rts
+
+; --------------------------------
+; This subroutine causes a Trap and thereby calls into Lua code. The function
+; executed is log_string(). The function expects that the buffer containing
+; the string to log is given in STR_BASE/STR_BASE+1. The string size is expected
+; in the x register.
+; --------------------------------
+callLogString    
+    lda #TRAP_LOG                                               ; load trap code    
     sta TRAP_ADDRESS                                            ; cause trap
     rts

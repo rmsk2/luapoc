@@ -30,6 +30,15 @@ function trap(trap_code)
     end
 end
 
+function init()
+    log_file = io.open("hangman_log.txt", "wb+")
+end
+
+function cleanup()
+    print("Closing log file")
+    log_file:close()
+end
+
 -- *********************************
 -- This function clears the screen using an appropriate escape sequence.
 -- *********************************
@@ -58,6 +67,32 @@ function write_string()
         byte_str = read_byte(out_addr + i)
         io.write(string.char(byte_str))
     end    
+end
+
+-- *********************************
+-- This function determines the address to which STR_BASE and STR_BASE +1 
+-- point. After that it logs the bytes of this and the following addresses. to
+-- the log file opened in the init() function.
+-- The number of bytes is specified by the value of the x register.
+-- *********************************
+function log_string()
+    local i = 0
+    local out_addr = de_ref(STR_BASE)
+    local stop = false
+    local byte_str
+    local to_print = ""
+    local buffer_len = get_xreg()
+
+    if buffer_len < 1 then
+        return
+    end
+
+    for i = 0, buffer_len - 1, 1 do
+        byte_str = read_byte(out_addr + i)
+        log_file:write(string.char(byte_str))
+    end
+
+    log_file:write("\n")
 end
 
 -- *********************************
@@ -90,3 +125,7 @@ end
 TRAP_TABLE[0] = read_string
 TRAP_TABLE[1] = write_string
 TRAP_TABLE[2] = clear_screen
+TRAP_TABLE[3] = log_string
+
+
+init()

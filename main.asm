@@ -40,6 +40,7 @@ main
     +getString WORD_TO_GUESS, MAX_WORD_LEN                      ; Ask for word to guess
     stx WORD_LEN    
     jsr initGuessedWord                                         ; initialize state of guessed word
+    +logStringAddr WORD_TO_GUESS, WORD_LEN
     jsr clearScreen    
 mainLoop
     jsr printCrLf
