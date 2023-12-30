@@ -87,6 +87,8 @@ function log_string()
         return
     end
 
+    log_file:write(ident .. ": ")
+
     for i = 0, buffer_len - 1, 1 do
         byte_str = read_byte(out_addr + i)
         log_file:write(string.char(byte_str))
