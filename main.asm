@@ -5,6 +5,8 @@
     jmp main
 
 
+!source "iomacros.asm"
+
 !zone io
 !source "hangmanio.asm"
 

@@ -1,6 +1,6 @@
 all: hangman
 
-hangman: main.asm hangman.asm hangmanio.asm
+hangman: main.asm hangman.asm hangmanio.asm iomacros.asm
 	acme main.asm
 
 run: hangman
