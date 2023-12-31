@@ -107,6 +107,7 @@ function read_string()
     local buffer_len = get_xreg()
 
     if buffer_len <= 0 then
+        set_xreg(0)
         return
     end
 

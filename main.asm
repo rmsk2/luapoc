@@ -37,10 +37,13 @@ main
     ; initialize state
     stz NUMBER_OF_WRONG_GUESSES
     stz WORD_LEN
+.tryAgain    
     jsr printCrLf
     +printString PROMPT, 21
     +getString WORD_TO_GUESS, MAX_WORD_LEN                      ; Ask for word to guess
-    stx WORD_LEN    
+    cpx #0                                                      ; Entered word had length 0?
+    beq .tryAgain                                               ; Let's try again
+    stx WORD_LEN                                                
     jsr initGuessedWord                                         ; initialize state of guessed word
     +logStringAddr WORD_TO_GUESS, WORD_LEN
     jsr clearScreen    
