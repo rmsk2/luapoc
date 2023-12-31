@@ -9,4 +9,4 @@ unit tests.
 
 The only part of the whole project which is dependent on the specifics of `6502profiler` is the file `hangmanio.asm`. If you replace 
 its contens with routines that use the IO facilities of a real machine (using a 65C02 CPU) then this software should work on that 
-machine. You may also have to adapt the charset which is used to draw the stick figure.
+machine. You may also have to adapt the charset which is used to draw the stick figure and the target address of the assembly program.
