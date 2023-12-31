@@ -8,5 +8,5 @@ to build and run this software. I have only tested this software on Linux (Ubunt
 unit tests. 
 
 The only part of the whole project which is dependent on the specifics of `6502profiler` is the file `hangmanio.asm`. If you replace 
-its contens with routines that use the IO facilities of a real machine then this software should work on that machine. You may also 
-have to adapt the charset which is used to draw the stick figure.
+its contens with routines that use the IO facilities of a real machine (using a 65C02 CPU) then this software should work on that 
+machine. You may also have to adapt the charset which is used to draw the stick figure.
